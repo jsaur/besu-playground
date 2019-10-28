@@ -11,7 +11,7 @@ module.exports = {
       network_id: "*" // Match any network id
     },
     quickstartWallet: {
-      provider: () => new PrivateKeyProvider(privateKey, "http://localhost:32768/jsonrpc"), // update to correct port
+      provider: () => new PrivateKeyProvider(privateKey, "http://localhost:32770/jsonrpc"),
       network_id: "*"
     },
   }
