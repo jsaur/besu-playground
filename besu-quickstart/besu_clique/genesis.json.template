@@ -3,8 +3,8 @@
     "chainId": 1729,
     "constantinoplefixblock": 0,
     "clique":{
-      "blockperiodseconds":1,
-      "epochlength":2000
+      "blockperiodseconds":15,
+      "epochlength":30000
     }
   },
   "coinbase":"0x0000000000000000000000000000000000000000",
