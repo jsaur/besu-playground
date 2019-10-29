@@ -1,0 +1,21 @@
+---
+version: '3.4'
+
+networks:
+  besu-network:
+    external: true
+
+services:
+  pet-shop:
+      build: ./
+      command: sh
+      image: pet-shop
+      container_name: pet-shop
+      working_dir: /www
+      ports:
+        - "8080:8080"
+      volumes:
+        - ./:/www
+      networks:
+        - besu-network
+      tty: true

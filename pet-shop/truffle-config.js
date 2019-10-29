@@ -11,7 +11,7 @@ module.exports = {
       network_id: "*" // Match any network id
     },
     quickstartWallet: {
-      provider: () => new PrivateKeyProvider(privateKey, "http://localhost:32770/jsonrpc"),
+      provider: () => new PrivateKeyProvider(privateKey, "http://besu-quickstart_node_3:8545"),
       network_id: "*",
       gasPrice: 0,
       gas: "0x1ffffffffffffe"
