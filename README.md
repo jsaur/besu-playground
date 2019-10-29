@@ -1,3 +1,10 @@
+
+docker-compose up --scale node=3
+docker exec -it pet-shop npm run migrate
+docker exec -it pet-shop npm run test
+
+
+
 #### Tab 1  
 `docker network create --driver=bridge besu-network` 
 `cd besu-quickstart`  

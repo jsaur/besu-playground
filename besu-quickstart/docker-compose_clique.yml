@@ -1,6 +1,10 @@
 ---
 version: '3.4'
 
+networks:
+  besu-network:
+    external: true
+
 services:
   bootnode:
     build:
@@ -33,6 +37,8 @@ services:
     volumes:
       - public-keys:/opt/besu/public-keys/
       - genesis:/opt/besu/genesis/
+    networks:
+      - besu-network
 
   node:
     image: quickstart/besu:1.3.1-clique
@@ -45,6 +51,8 @@ services:
       - genesis:/opt/besu/genesis/
     depends_on:
       - bootnode
+    networks:
+      - besu-network
 
   rpcnode: #  We keep one node named rpcnode to have a specific node to connect the explorer
     image: quickstart/besu:1.3.1-clique
@@ -57,18 +65,30 @@ services:
       - genesis:/opt/besu/genesis/
     depends_on:
       - bootnode
+    networks:
+      - besu-network
 
-  pet-shop:
-    build: ./
-    command: sh
-    image: pet-shop
-    container_name: pet-shop
-    working_dir: /www
+  explorer:
+    build: block-explorer-light/.
+    image: quickstart/block-explorer-light:1.3.1-clique
+    depends_on:
+      - rpcnode
     ports:
-      - "8080:8080"
+      - "${EXPLORER_PORT_MAPPING:-}80"
+    networks:
+      - besu-network
+
+  prometheus:
+    image: "prom/prometheus"
     volumes:
-      - ./:/www
-    tty: true
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.external-url=http://localhost:9090/prometheus
+      - --web.route-prefix=/prometheus
+    networks:
+      - besu-network
 
   grafana:
     image: "grafana/grafana"
@@ -78,10 +98,14 @@ services:
     volumes:
       - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
       - grafana:/var/lib/grafana
+    networks:
+      - besu-network
 
 volumes:
   public-keys:
 
   genesis:
+
+  prometheus:
 
   grafana:
