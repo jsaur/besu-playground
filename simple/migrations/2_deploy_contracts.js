@@ -1,5 +1,5 @@
-var Adoption = artifacts.require("Adoption");
+var CreditRegistry = artifacts.require("CreditRegistry");
 
 module.exports = function(deployer) {
-  deployer.deploy(Adoption);
+  deployer.deploy(CreditRegistry);
 };
